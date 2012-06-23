@@ -58,4 +58,19 @@ class MoviesController < ApplicationController
     redirect_to movies_path
   end
 
+  def same_director
+    @movie = Movie.find(params[:id])
+    director = @movie[:director]
+    puts "director = '#{director}'"
+    if director == '' then
+      ratings = {}
+      for rating in Movie.all_ratings
+        ratings[rating] = 1
+      end
+      session[:ratings] = ratings
+      redirect_to movies_path
+    else
+      @movies = Movie.same_director(director)
+    end
+  end
 end
